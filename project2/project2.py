@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from collections import defaultdict
 
+# Hardcoding the state counts because not every state seen in all data
 STATE_COUNTS = {
     "small": 100,
     "medium": 50000,
@@ -14,7 +15,8 @@ def parseData(case, root="data"):
     actions = sorted(df["a"].unique())
     return df, states, actions
 
-def offline_q_learning(df, actions, gamma, alpha=0.1, epochs=50, init_q=0.0, seed=0):
+
+def offline_q_learning(df, actions, gamma, alpha=0.1, epochs=500, init_q=0.0, seed=0):
     rng = np.random.default_rng(seed)
     Q = defaultdict(lambda: defaultdict(lambda: init_q))
     transitions = list(zip(df["s"].tolist(), df["a"].tolist(), df["r"].tolist(), df["sp"].tolist()))
