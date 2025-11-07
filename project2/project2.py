@@ -15,11 +15,11 @@ def parseData(case, root="data"):
     actions = sorted(df["a"].unique())
     return df, states, actions
 
-
 def offline_q_learning(df, actions, gamma, alpha=0.1, epochs=500, init_q=0.0, seed=0):
     rng = np.random.default_rng(seed)
     Q = defaultdict(lambda: defaultdict(lambda: init_q))
     transitions = list(zip(df["s"].tolist(), df["a"].tolist(), df["r"].tolist(), df["sp"].tolist()))
+    # For a set number of epochs, update every transition by the q-learning update formula
     for _ in range(epochs):
         rng.shuffle(transitions)
         for s, a, r, sp in transitions:
@@ -28,6 +28,7 @@ def offline_q_learning(df, actions, gamma, alpha=0.1, epochs=500, init_q=0.0, se
             Q[s][a] += alpha * (target - Q[s][a])
     return Q
 
+#Get best policy (after training)
 def greedy_policy(Q, actions):
     pi = {}
     for s, Qa in Q.items():
