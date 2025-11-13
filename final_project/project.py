@@ -43,9 +43,9 @@ def stand():
     pass
 
 def playerPlay(player, deck, index):
-    while(getValue(dealer) < 17):
+    while(getValue(player) < 17):
         action = np.random.randint(0, 2)
-        print("Player chose to", "hit" if action == 0 else "stand")
+        #print("Player chose to", "hit" if action == 0 else "stand")
         if(action == 1):
             break
         player += [deck[index]]
@@ -105,15 +105,14 @@ def getResult(player, dealer):
         return 1
     
 if __name__ == "__main__":
-    deck = getDeck()
-    print(deck)
-    player, dealer = initialState(deck)
-    
-    print(getValue(player))
-    index = 4
-    index = playerPlay(player, deck, index)
-    index = dealerPlay(dealer, deck, index)
-    print("Player Cards: " + player[0]+ " " + player[1] + " Dealer Cards: " + str(len(dealer)))
-    print(getValue(player))
-    print(getValue(dealer))
-    print(getResult(player, dealer))
+    average = 0
+    num_trials = 100000
+    for i in range(num_trials):
+        deck = getDeck()
+        player, dealer = initialState(deck)
+        index = 4
+        index = playerPlay(player, deck, index)
+        index = dealerPlay(dealer, deck, index)
+        average += getResult(player, dealer)
+    average /= num_trials
+    print("Random action EV: " + str(average))
