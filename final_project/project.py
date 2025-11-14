@@ -35,13 +35,6 @@ def initialState(deck):
     dealer = [deck[2], deck[3]]
     return player, dealer
 
-def hit(deck, index):
-    return deck[index]
-
-def stand():
-    # We are going to do nothing from here
-    pass
-
 def playerPlay(player, deck, index):
     while(getValue(player) < 17):
         action = np.random.randint(0, 2)
@@ -89,11 +82,11 @@ def getResult(player, dealer):
         return 1
 
     # Player blackjack ONLY case that returns 2.5
-    if pBJ and not dBJ:
+    if pBJ:
         return 2.5
 
     # Dealer blackjack
-    if dBJ and not pBJ:
+    if dBJ:
         return 0
 
     # Normal comparisons
